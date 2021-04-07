@@ -14,6 +14,11 @@ all:
             - "0.0.0.0/0"
             - "::/0"
           wg_interface: "wg0"
+          wg_ip6_extraconf:
+            - "post-up ip6tables -t nat -A POSTROUTING -s fd01::/64 -o eth0 ! -d fc00::/7 -j MASQUERADE"
+            - "pre-down ip6tables -t nat -D POSTROUTING -s fd01::/64 -o eth0 ! -d fc00::/7 -j MASQUERADE"
+          wg_ip4_extraconf:
+            - "#this is a comment"
     wg_clients:
       hosts:
         client_1:
