@@ -5,6 +5,7 @@
 PrivateKey = {{ client.wg_pubkey }}
 Address = {{ client.wg_ip4 }}/{{ server.wg_ip4 | ipaddr('prefix') }}
 Address = {{ client.wg_ip6 }}/{{ server.wg_ip6 | ipaddr('prefix') }}
+DNS = {{ server.wg_dns }}
 
 [Peer]
 PublicKey = {{ server.wg_pubkey }}
