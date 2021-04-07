@@ -3,8 +3,12 @@
 {% set server = hostvars[servername] %}
 [Interface]
 PrivateKey = {{ client.wg_pubkey }}
+{% if client.wg_ip4 | default(false) %}
 Address = {{ client.wg_ip4 }}/{{ server.wg_ip4 | ipaddr('prefix') }}
+{% endif %}
+{% if client.wg_ip6 | default(false) %}
 Address = {{ client.wg_ip6 }}/{{ server.wg_ip6 | ipaddr('prefix') }}
+{% endif %}
 DNS = {{ server.wg_dns }}
 
 [Peer]

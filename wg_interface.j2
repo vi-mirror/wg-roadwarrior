@@ -2,10 +2,18 @@
 PrivateKey = {{ wg_key }}
 ListenPort = {{ wg_port }}
 
-{% for client in groups['wg_clients'] %}
-#{{ client }}
+{% for clientname in groups['wg_clients'] %}
+{% set ip4 = hostvars[clientname].wg_ip4 | default(false) %}
+{% set ip6 = hostvars[clientname].wg_ip6 | default(false) %}
+#{{ clientname }}
 [Peer]
-PublicKey = {{ hostvars[client].wg_pubkey}}
-AllowedIPs = {{ hostvars[client].wg_ip4 }},{{ hostvars[client].wg_ip6 }}
+PublicKey = {{ hostvars[clientname].wg_pubkey}}
+{% if ip4 and ip6 %}
+AllowedIPs = {{ ip4 }},{{ ip6 }}
+{% elif ip4 %}
+AllowedIPs = {{ ip4 }}
+{% elif ip6 %}
+AllowedIPs = {{ ip6 }}
+{% endif %}
 
 {% endfor %}
