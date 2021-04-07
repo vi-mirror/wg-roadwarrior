@@ -1,0 +1,11 @@
+[Interface]
+PrivateKey = {{ wg_key }}
+ListenPort = {{ wg_port }}
+
+{% for client in groups['wg_clients'] %}
+#{{ client }}
+[Peer]
+PublicKey = {{ hostvars[client].wg_pubkey}}
+AllowedIPs = {{ hostvars[client].wg_ip4 }},{{ hostvars[client].wg_ip6 }}
+
+{% endfor %}
