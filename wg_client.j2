@@ -2,7 +2,7 @@
 {% set servername = groups['wg_server'][0] %}
 {% set server = hostvars[servername] %}
 [Interface]
-PrivateKey = {{ client.wg_pubkey }}
+PrivateKey = {{ client.wg_key }}
 {% if client.wg_ip4 | default(false) %}
 Address = {{ client.wg_ip4 }}/{{ server.wg_ip4 | ipaddr('prefix') }}
 {% endif %}
