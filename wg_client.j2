@@ -12,7 +12,7 @@ Address = {{ client.wg_ip6 }}
 DNS = {{ server.wg_dns }}
 
 [Peer]
-PublicKey = {{ server.wg_pubkey }}
+PublicKey = {{ server_pubkey.stdout }}
 Endpoint = {{ server.wg_hostname }}:{{ server.wg_port }}
 AllowedIPs = {{ server.wg_routes | join(',') }}
 PersistentKeepalive = 25

@@ -4,7 +4,6 @@ all:
       hosts:
         vpnserver:
           wg_key: q2w3e4r5t6
-          wg_pubkey: r5t6y7u8i9
           wg_ip4: "10.0.0.0/24"
           wg_ip6: "fd01::/64"
           wg_dns: "1.2.3.4"
@@ -23,12 +22,10 @@ all:
       hosts:
         client_1:
           wg_key: asdfg
-          wg_pubkey: hjkl
           wg_ip4: "10.0.0.2"
           wg_ip6: "fd01::2"
         clinet_2:
           wg_key: qwerty
-          wg_pubkey: yuioop
           wg_ip4: "10.0.0.3"
           wg_ip6: "fd01::3"
 

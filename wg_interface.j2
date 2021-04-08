@@ -5,9 +5,10 @@ ListenPort = {{ wg_port }}
 {% for clientname in groups['wg_clients'] %}
 {% set ip4 = hostvars[clientname].wg_ip4 | default(false) %}
 {% set ip6 = hostvars[clientname].wg_ip6 | default(false) %}
+{% set wg_pubkey = pubkeys.results | selectattr('item', 'match', clientname) | map(attribute='stdout') | first %}
 #{{ clientname }}
 [Peer]
-PublicKey = {{ hostvars[clientname].wg_pubkey}}
+PublicKey = {{ wg_pubkey }}
 {% if ip4 and ip6 %}
 AllowedIPs = {{ ip4 }},{{ ip6 }}
 {% elif ip4 %}
