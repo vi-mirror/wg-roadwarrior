@@ -4,10 +4,10 @@
 [Interface]
 PrivateKey = {{ client.wg_key }}
 {% if client.wg_ip4 | default(false) %}
-Address = {{ client.wg_ip4 }}/{{ server.wg_ip4 | ipaddr('prefix') }}
+Address = {{ client.wg_ip4 }}
 {% endif %}
 {% if client.wg_ip6 | default(false) %}
-Address = {{ client.wg_ip6 }}/{{ server.wg_ip6 | ipaddr('prefix') }}
+Address = {{ client.wg_ip6 }}
 {% endif %}
 DNS = {{ server.wg_dns }}
 
