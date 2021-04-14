@@ -16,20 +16,26 @@
       with_items: "{{ groups['wg_clients'] | list }}"
     - name: Generate Server wg-config
       template:
-        src: wg_interface.j2
+        src: wg_server.j2
         dest: "/etc/wireguard/{{ wg_interface }}.conf"
       notify: read wg config
-    - name: Gemerate debian-specific interface-config
-      template:
-        src: debian_interface.j2
-        dest: "/etc/network/interfaces.d/{{ wg_interface }}"
-      when: ansible_facts['os_family'] == "Debian"
-      notify: reload interface
+#    - name: Gemerate debian-specific interface-config
+#      template:
+#        src: debian_interface.j2
+#        dest: "/etc/network/interfaces.d/{{ wg_interface }}"
+#      when: ansible_facts['os_family'] == "Debian"
+#      notify: reload interface
+    - name: Start and enable wg-quick service
+      service:
+        name: "wg-quick@{{ wg_interface }}"
+        state: started
+        enabled: true
   handlers:
     - name: read wg config
-      command: "wg setconf {{ wg_interface }} /etc/wireguard/{{ wg_interface }}.conf"
-    - name: reload interface
-      shell: "ifdown {{ wg_interface }}; ifup {{ wg_interface }}"
+      shell: "wg syncconf {{ wg_interface }} <(wg-quick strip {{ wg_interface }})"
+#      command: "wg setconf {{ wg_interface }} /etc/wireguard/{{ wg_interface }}.conf"
+#    - name: reload interface
+#      shell: "ifdown {{ wg_interface }}; ifup {{ wg_interface }}"
 - name: Generate client configs
   hosts: localhost
   tasks:
